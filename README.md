@@ -3,7 +3,7 @@
 This React application offers a platform for managing content creators. Users can view details about different creators, update their information, and delete them. It also boasts features such as integration with various social media platforms like YouTube, Instagram, Twitter, and TikTok.
 
 ## 🎥 App Demo
-![App Demo](./content-creators-app/CreatorVerse-App.gif)
+![App Demo](./CreatorVerse-App.gif)
 
 ## 🌟 Features
 
