@@ -1,25 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { supabase } from './client';
+import HomePage from './pages/HomePage';
+import ShowCreators from './pages/ShowCreators';
+import ViewCreator from './pages/ViewCreator';
+import AddCreator from './pages/AddCreator';
+import EditCreator from './pages/EditCreator';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [creators, setCreators] = useState([]);
+
+    useEffect(() => {
+        const fetchCreators = async () => {
+            const { data, error } = await supabase
+                .from('creatorverse')
+                .select('*');
+
+            if (data) {
+                setCreators(data);
+            } else {
+                console.error("Error fetching creators:", error);
+            }
+        };
+
+        fetchCreators();
+    }, []);
+
+    return (
+        <Router>
+            <div className="App">
+                <Routes>
+                    <Route path="/" element={<HomePage />} exact />
+                    <Route path="/creators" element={<ShowCreators creators={creators} />} />
+                    <Route path="/add-creator" element={<AddCreator />} />
+                    <Route path="/creator/:id" element={<ViewCreator />} />
+                    <Route path="/creator/:id/edit" element={<EditCreator />} />
+                </Routes>
+            </div>
+        </Router>
+    );
 }
 
 export default App;
